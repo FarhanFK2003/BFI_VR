@@ -35,6 +35,9 @@ void ABFIQuestionnaireGameMode::BeginPlay()
             if (QuestionWidgetRef)
             {
                 UE_LOG(LogTemp, Warning, TEXT("Successfully found the UI Widget!"));
+
+                QuestionWidgetRef->OnAnswerSelected.BindUObject(this, &ABFIQuestionnaireGameMode::RecordResponse);
+
             }
         }
     }
@@ -78,22 +81,26 @@ void ABFIQuestionnaireGameMode::UpdateQuestion()
     }
 }
 
-void ABFIQuestionnaireGameMode::RecordResponse(int32 QuestionIndex, int32 Score)
+void ABFIQuestionnaireGameMode::RecordResponse(int32 Score)
 {
-    int32 AdjustedScore = ReverseScoredQuestions.Contains(QuestionIndex + 1) ? 6 - Score : Score;
-
-    FString* Category = QuestionCategoryMap.Find(QuestionIndex + 1);
-    if (Category)
-    {
-        if (*Category == "Extraversion") ExtraversionScore += AdjustedScore;
-        else if (*Category == "Agreeableness") AgreeablenessScore += AdjustedScore;
-        else if (*Category == "Conscientiousness") ConscientiousnessScore += AdjustedScore;
-        else if (*Category == "Neuroticism") NeuroticismScore += AdjustedScore;
-        else if (*Category == "Openness") OpennessScore += AdjustedScore;
-    }
-
     CurrentQuestionIndex++;
-    UpdateQuestion();
+
+    if (CurrentQuestionIndex < Questions.Num())
+    {
+        int32 AdjustedScore = ReverseScoredQuestions.Contains(CurrentQuestionIndex + 1) ? 6 - Score : Score;
+
+        FString* Category = QuestionCategoryMap.Find(CurrentQuestionIndex + 1);
+        if (Category)
+        {
+            if (*Category == "Extraversion") ExtraversionScore += AdjustedScore;
+            else if (*Category == "Agreeableness") AgreeablenessScore += AdjustedScore;
+            else if (*Category == "Conscientiousness") ConscientiousnessScore += AdjustedScore;
+            else if (*Category == "Neuroticism") NeuroticismScore += AdjustedScore;
+            else if (*Category == "Openness") OpennessScore += AdjustedScore;
+        }
+
+        UpdateQuestion();
+    }
 }
 
 void ABFIQuestionnaireGameMode::CalculateFinalScores()

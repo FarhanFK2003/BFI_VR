@@ -44,11 +44,9 @@ private:
     // Mapping Question to Category
     TMap<int32, FString> QuestionCategoryMap;
 
-    
-
     void LoadQuestions();  // Load questions into the array
     void UpdateQuestion(); // Update widget with the next question
-    void RecordResponse(int32 QuestionIndex, int32 Score); // Save user's response
+    void RecordResponse( int32 Score); // Save user's response
     void CalculateFinalScores(); // Calculate & display final scores
 	
 };
