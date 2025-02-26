@@ -15,6 +15,10 @@ void UBFIQuestionWidget::ShowFinalResults(FString Results)
 {
     if (ResultTextBlock)
     {
+        ButtonsParent->SetVisibility(ESlateVisibility::Hidden);
+        ButtonsParent->SetVisibility(ESlateVisibility::Hidden);
+        QuestionTextBlock->SetVisibility(ESlateVisibility::Hidden);
+        ResultTextBlock->SetVisibility(ESlateVisibility::Visible);
         ResultTextBlock->SetText(FText::FromString(Results));
     }
 }

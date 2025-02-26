@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/HorizontalBox.h"
 #include "Blueprint/UserWidget.h"
 #include "BFIQuestionWidget.generated.h"
-
 
 /**
  * 
@@ -52,6 +52,8 @@ private:
     UPROPERTY(meta = (BindWidget))
     class UButton* AnswerButton5;
 
+    UPROPERTY(meta = (BindWidget))
+    class UHorizontalBox* ButtonsParent;
     
 
     UFUNCTION()
